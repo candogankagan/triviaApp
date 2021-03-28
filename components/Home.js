@@ -1,35 +1,39 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
-import { QuizContext } from '../context/StateProvider'
+import React, { useEffect, useState, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { QuizContext } from '../context/StateProvider';
 
 function Home({ navigation }) {
-	const [selectedCategory, setSelectedCategory] = useState('anyCategory')
+	const [selectedCategory, setSelectedCategory] = useState('anyCategory');
 	const [selectedDifficulty, setSelectedDifficulty] = useState(
 		'anyDifficulty'
-	)
-	const [categories, setCategories] = useState([])
-	const { setQuestions, setShuffledAnswer, setIndex, index } = useContext(
-		QuizContext
-	)
+	);
+	const [categories, setCategories] = useState([]);
+	const {
+		setQuestions,
+		setIndex,
+		index,
+		setScore,
+		setQuestionNumber,
+	} = useContext(QuizContext);
 
-	const categoriesURL = 'https://opentdb.com/api_category.php'
+	const categoriesURL = 'https://opentdb.com/api_category.php';
 
 	useEffect(() => {
 		const fetchQuizCategories = async () => {
 			try {
 				const data = await fetch(categoriesURL).then((resp) =>
 					resp.json()
-				)
-				const dataList = data.trivia_categories
-				setCategories(dataList)
+				);
+				const dataList = data.trivia_categories;
+				setCategories(dataList);
 			} catch (err) {
-				console.error(error)
+				console.error(error);
 			}
-		}
-		fetchQuizCategories()
-	}, [])
+		};
+		fetchQuizCategories();
+	}, []);
 
 	const fetchQuestions = async () => {
 		try {
@@ -44,14 +48,14 @@ function Home({ navigation }) {
 			)
 				.then((resp) => resp.json())
 				.then((data) => {
-					const questionsData = data.results
-					console.log(questionsData)
-					setQuestions(questionsData)
-				})
+					const questionsData = data.results;
+					console.log(questionsData);
+					setQuestions(questionsData);
+				});
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
-	}
+	};
 
 	return (
 		<View style={styles.container}>
@@ -102,9 +106,12 @@ function Home({ navigation }) {
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => {
-							fetchQuestions()
-							setIndex(0)
-							navigation.navigate('Quiz')
+							setScore(0);
+							setQuestionNumber(1);
+							setQuestions([]);
+							fetchQuestions();
+							setIndex(0);
+							navigation.navigate('Quiz');
 						}}
 					>
 						<Text style={styles.text}>Get Started</Text>
@@ -112,7 +119,7 @@ function Home({ navigation }) {
 				</View>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -159,5 +166,5 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		borderRadius: 5,
 	},
-})
-export default Home
+});
+export default Home;
