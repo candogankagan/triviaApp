@@ -24,12 +24,17 @@ function Quiz({ navigation }) {
 	} = useContext(QuizContext);
 
 	const [resetTime, setResetTime] = useState(0);
+	const [disabled, setDisabled] = useState(false);
+	const [disabledFiftyPercent, setDisabledFiftyPercent] = useState(false);
+	const [firstIncorrect, setFirstIncorrect] = useState();
+	const [secondIncorrect, setSecondIncorrect] = useState();
 
 	const handleAnswer = (answer) => {
 		if (answer === questions[index].correct_answer) {
 			setIndex(index + 1);
 			setResetTime(resetTime + 1);
 			setScore(score + 50);
+			setDisabled(false);
 			navigation.navigate(index == 9 ? 'YouWinPage' : 'CorrectPage');
 			console.log(index);
 		} else {
@@ -53,11 +58,36 @@ function Quiz({ navigation }) {
 	console.log(shuffledAnswer);
 	console.log(questions);
 
-	const renderAnswers = ({ item }) => {
+	useEffect(() => {
+		if (disabled) {
+			setFirstIncorrect(
+				shuffledAnswer.indexOf(questions[index].incorrect_answers[0])
+			);
+			setSecondIncorrect(
+				shuffledAnswer.indexOf(questions[index].incorrect_answers[1])
+			);
+			setDisabledFiftyPercent(true);
+		}
+	}, [disabled]);
+
+	const renderAnswers = ({ item, index }) => {
 		console.log(item);
 		return (
 			<TouchableOpacity
-				style={styles.button}
+				style={
+					disabled == true
+						? index == firstIncorrect || index == secondIncorrect
+							? styles.disabledButton
+							: styles.button
+						: styles.button
+				}
+				disabled={
+					disabled == true
+						? index == firstIncorrect || index == secondIncorrect
+							? true
+							: false
+						: false
+				}
 				onPress={() => handleAnswer(item)}
 			>
 				<Text style={styles.text}>{decode(item)}</Text>
@@ -74,6 +104,20 @@ function Quiz({ navigation }) {
 					questionNumber={questionNumber}
 					resetTime={resetTime}
 				/>
+				<View
+					style={
+						disabledFiftyPercent == true
+							? styles.disabledFiftyPercent
+							: styles.fiftyPercent
+					}
+				>
+					<TouchableOpacity
+						disabled={disabledFiftyPercent}
+						onPress={() => setDisabled(true)}
+					>
+						<Text style={styles.text}>%50</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 			<View style={styles.question}>
 				<View style={styles.questionText}>
@@ -105,6 +149,26 @@ const styles = StyleSheet.create({
 	header: {
 		flex: 1.3,
 	},
+	fiftyPercent: {
+		marginTop: 10,
+		marginLeft: 10,
+		backgroundColor: 'rgba(0,0,0,.4)',
+		width: 45,
+		height: 45,
+		borderRadius: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	disabledFiftyPercent: {
+		marginTop: 10,
+		marginLeft: 10,
+		backgroundColor: 'rgba(0,0,0,.2)',
+		width: 45,
+		height: 45,
+		borderRadius: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	question: {
 		flex: 4,
 		width: '80%',
@@ -125,6 +189,13 @@ const styles = StyleSheet.create({
 		borderLeftWidth: 3,
 		borderLeftColor: 'white',
 		backgroundColor: 'rgba(0,0,0,.4)',
+	},
+	disabledButton: {
+		margin: 5,
+		padding: 10,
+		borderLeftWidth: 3,
+		borderLeftColor: 'white',
+		backgroundColor: 'rgba(0,0,0,.2)',
 	},
 	text: {
 		color: 'white',
