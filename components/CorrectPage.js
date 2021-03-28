@@ -1,10 +1,12 @@
-import React, { useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
-import { QuizContext } from '../context/StateProvider'
+import React, { useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { QuizContext } from '../context/StateProvider';
 
 function CorrectPage({ navigation }) {
-	const { questionNumber, setQuestionNumber, score } = useContext(QuizContext)
+	const { questionNumber, setQuestionNumber, score } = useContext(
+		QuizContext
+	);
 
 	return (
 		<View style={styles.container}>
@@ -35,8 +37,8 @@ function CorrectPage({ navigation }) {
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => {
-							setQuestionNumber(questionNumber + 1)
-							navigation.navigate('Quiz')
+							setQuestionNumber(questionNumber + 1);
+							navigation.navigate('Quiz');
 						}}
 					>
 						<Text style={styles.text}>Next Question</Text>
@@ -44,7 +46,7 @@ function CorrectPage({ navigation }) {
 				</View>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0,.4)',
 	},
 	headerText: {
-		width: '20%',
+		width: '30%',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -73,9 +75,9 @@ const styles = StyleSheet.create({
 		flex: 3,
 		alignItems: 'center',
 	},
-	icon: { flex: 2, alignItems: 'center' },
+	icon: { flex: 3, alignItems: 'center' },
 	pointTextContainer: { flex: 2, alignItems: 'center' },
-	pointText: { fontSize: 24, color: 'white' },
+	pointText: { color: 'white' },
 	buttonContainer: { width: '80%', flex: 2 },
 	button: {
 		justifyContent: 'center',
@@ -87,6 +89,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-})
+});
 
-export default CorrectPage
+export default CorrectPage;

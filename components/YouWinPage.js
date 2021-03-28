@@ -1,17 +1,13 @@
-import React, { useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
-import { QuizContext } from '../context/StateProvider'
+import React, { useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { QuizContext } from '../context/StateProvider';
 
 function YouWinPage({ navigation }) {
-	const {
-		setQuestionNumber,
-		questionNumber,
-		score,
-		setScore,
-		setShuffledAnswer,
-	} = useContext(QuizContext)
-	console.log(questionNumber)
+	const { setQuestionNumber, questionNumber, score, setScore } = useContext(
+		QuizContext
+	);
+	console.log(questionNumber);
 
 	return (
 		<View style={styles.container}>
@@ -26,17 +22,14 @@ function YouWinPage({ navigation }) {
 				<TouchableOpacity
 					style={styles.button}
 					onPress={() => {
-						setShuffledAnswer([])
-						setScore(0)
-						setQuestionNumber(1)
-						navigation.navigate('Home')
+						navigation.navigate('Home');
 					}}
 				>
 					<Text style={styles.text}>Main Menu</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -52,8 +45,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		marginBottom: 50,
 	},
-	pointTextContainer: { flex: 2, alignItems: 'center' },
-	pointText: { fontSize: 24, color: 'white' },
+	pointTextContainer: { flex: 3, alignItems: 'center' },
+	pointText: { color: 'white' },
 	buttonContainer: { width: '80%', flex: 2 },
 	button: {
 		justifyContent: 'center',
@@ -70,6 +63,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-})
+});
 
-export default YouWinPage
+export default YouWinPage;

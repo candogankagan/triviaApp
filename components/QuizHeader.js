@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 function QuizHeader({ navigation, score, questionNumber, resetTime }) {
-	const [initialTime, setInitialTime] = useState(15)
-	const [timer, setTimer] = useState()
+	const [initialTime, setInitialTime] = useState(15);
+	const [timer, setTimer] = useState();
 
 	useEffect(() => {
 		if (initialTime > 0) {
 			setTimer(
 				setTimeout(() => {
-					setInitialTime(initialTime - 1)
+					setInitialTime(initialTime - 1);
 				}, 1000)
-			)
+			);
 		} else {
-			navigation.navigate('TimesUpPage')
+			navigation.navigate('TimesUpPage');
 		}
-	}, [initialTime])
+	}, [initialTime]);
 
 	useEffect(() => {
 		if (questionNumber > 1) {
-			clearTimeout(timer)
-			setInitialTime(15)
+			clearTimeout(timer);
+			setInitialTime(15);
 		}
-	}, [questionNumber])
+	}, [questionNumber]);
 
 	useEffect(() => {
 		if (resetTime > 0) {
-			clearTimeout(timer)
+			clearTimeout(timer);
 		}
-	}, [resetTime])
+	}, [resetTime]);
 
 	return (
 		<View style={styles.header}>
@@ -45,7 +45,7 @@ function QuizHeader({ navigation, score, questionNumber, resetTime }) {
 				<Text style={styles.text}>{initialTime}</Text>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-})
+});
 
-export default QuizHeader
+export default QuizHeader;

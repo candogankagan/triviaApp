@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
-import { QuizContext } from '../context/StateProvider'
+import React, { useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { QuizContext } from '../context/StateProvider';
 
 function TimesUpPage({ navigation }) {
 	const {
@@ -10,8 +10,8 @@ function TimesUpPage({ navigation }) {
 		score,
 		setScore,
 		setShuffledAnswer,
-	} = useContext(QuizContext)
-	console.log(questionNumber)
+	} = useContext(QuizContext);
+	console.log(questionNumber);
 
 	return (
 		<View style={styles.container}>
@@ -42,10 +42,7 @@ function TimesUpPage({ navigation }) {
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => {
-							setShuffledAnswer([])
-							setScore(0)
-							setQuestionNumber(1)
-							navigation.navigate('Home')
+							navigation.navigate('Home');
 						}}
 					>
 						<Text style={styles.text}>Main Menu</Text>
@@ -53,7 +50,7 @@ function TimesUpPage({ navigation }) {
 				</View>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -74,7 +71,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0,.4)',
 	},
 	headerText: {
-		width: '20%',
+		width: '30%',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -82,9 +79,11 @@ const styles = StyleSheet.create({
 		flex: 3,
 		alignItems: 'center',
 	},
-	icon: { flex: 2, alignItems: 'center' },
+	icon: { flex: 3, alignItems: 'center' },
 	pointTextContainer: { flex: 2, alignItems: 'center' },
-	pointText: { fontSize: 24, color: 'white' },
+	pointText: {
+		color: 'white',
+	},
 	buttonContainer: { width: '80%', flex: 2 },
 	button: {
 		justifyContent: 'center',
@@ -101,6 +100,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-})
+});
 
-export default TimesUpPage
+export default TimesUpPage;

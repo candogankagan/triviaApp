@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	StyleSheet,
 	TouchableOpacity,
@@ -6,10 +6,10 @@ import {
 	Text,
 	FlatList,
 	ActivityIndicator,
-} from 'react-native'
-import QuizHeader from './QuizHeader'
-import { QuizContext } from '../context/StateProvider'
-import { decode } from 'html-entities'
+} from 'react-native';
+import QuizHeader from './QuizHeader';
+import { QuizContext } from '../context/StateProvider';
+import { decode } from 'html-entities';
 
 function Quiz({ navigation }) {
 	const {
@@ -21,25 +21,25 @@ function Quiz({ navigation }) {
 		setShuffledAnswer,
 		index,
 		setIndex,
-	} = useContext(QuizContext)
+	} = useContext(QuizContext);
 
-	const [resetTime, setResetTime] = useState(0)
+	const [resetTime, setResetTime] = useState(0);
 
 	const handleAnswer = (answer) => {
 		if (answer === questions[index].correct_answer) {
-			setIndex(index + 1)
-			setResetTime(resetTime + 1)
-			setScore(score + 50)
-			navigation.navigate(index == 9 ? 'YouWinPage' : 'CorrectPage')
-			console.log(index)
+			setIndex(index + 1);
+			setResetTime(resetTime + 1);
+			setScore(score + 50);
+			navigation.navigate(index == 9 ? 'YouWinPage' : 'CorrectPage');
+			console.log(index);
 		} else {
-			setResetTime(resetTime + 1)
-			navigation.navigate('WrongPage')
+			setResetTime(resetTime + 1);
+			navigation.navigate('WrongPage');
 		}
-	}
+	};
 
 	useEffect(() => {
-		console.log(index, questionNumber)
+		console.log(index, questionNumber);
 
 		if (questions.length > 0 && index < 10) {
 			setShuffledAnswer(
@@ -47,14 +47,14 @@ function Quiz({ navigation }) {
 					questions[index].correct_answer,
 					...questions[index].incorrect_answers,
 				].sort(() => Math.random() - 0.5)
-			)
+			);
 		}
-	}, [questions, index])
-	console.log(shuffledAnswer)
-	console.log(questions)
+	}, [questions, index]);
+	console.log(shuffledAnswer);
+	console.log(questions);
 
 	const renderAnswers = ({ item }) => {
-		console.log(item)
+		console.log(item);
 		return (
 			<TouchableOpacity
 				style={styles.button}
@@ -62,8 +62,8 @@ function Quiz({ navigation }) {
 			>
 				<Text style={styles.text}>{decode(item)}</Text>
 			</TouchableOpacity>
-		)
-	}
+		);
+	};
 
 	return questions.length > 0 && index < 10 ? (
 		<View style={styles.container}>
@@ -94,7 +94,7 @@ function Quiz({ navigation }) {
 		<View style={styles.loading}>
 			<ActivityIndicator size='large' color='white' />
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -103,21 +103,25 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1544e3',
 	},
 	header: {
-		flex: 1,
+		flex: 1.3,
 	},
 	question: {
-		flex: 2.5,
+		flex: 4,
 		width: '80%',
 		alignSelf: 'center',
 	},
+	questionText: {
+		fontWeight: 'bold',
+		lineHeight: 28,
+		color: 'white',
+	},
 	answers: {
 		width: '85%',
-		marginTop: 40,
+		marginTop: 20,
 	},
 	button: {
-		margin: 10,
+		margin: 5,
 		padding: 10,
-		fontSize: 14,
 		borderLeftWidth: 3,
 		borderLeftColor: 'white',
 		backgroundColor: 'rgba(0,0,0,.4)',
@@ -125,18 +129,13 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-	questionText: {
-		fontSize: 20,
-		fontWeight: 'bold',
-		lineHeight: 28,
-		color: 'white',
-	},
+
 	loading: {
 		flex: 1,
 		backgroundColor: '#1544e3',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-})
+});
 
-export default Quiz
+export default Quiz;
