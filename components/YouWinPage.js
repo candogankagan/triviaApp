@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { BackHandler } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { QuizContext } from '../context/StateProvider';
@@ -7,7 +8,24 @@ function YouWinPage({ navigation }) {
 	const { setQuestionNumber, questionNumber, score, setScore } = useContext(
 		QuizContext
 	);
-	console.log(questionNumber);
+
+	function handleBackButtonClick() {
+		navigation.popToTop();
+		return true;
+	}
+
+	useEffect(() => {
+		BackHandler.addEventListener(
+			'hardwareBackPress',
+			handleBackButtonClick
+		);
+		return () => {
+			BackHandler.removeEventListener(
+				'hardwareBackPress',
+				handleBackButtonClick
+			);
+		};
+	}, []);
 
 	return (
 		<View style={styles.container}>
